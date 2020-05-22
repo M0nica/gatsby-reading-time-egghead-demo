@@ -31,6 +31,12 @@ type Data = {
   }
 }
 
+export function formatReadingTime(minutes: number): string {
+  let buckets = Math.round(minutes / 5)
+
+  return `${new Array(buckets || 1).fill("🍿").join("")} ${minutes} min. read`
+}
+
 const BlogIndex = ({ data, location }: PageProps<Data>) => {
   const siteTitle = data.site.siteMetadata.title
   const posts = data.allMarkdownRemark.edges
@@ -55,7 +61,8 @@ const BlogIndex = ({ data, location }: PageProps<Data>) => {
                 </Link>
               </h3>
               <small>{node.frontmatter.date}</small>
-              <small>&bull; {timeToRead} min.</small>
+              &bull;
+              <small> {formatReadingTime(timeToRead)} </small>
             </header>
             <section>
               <p
